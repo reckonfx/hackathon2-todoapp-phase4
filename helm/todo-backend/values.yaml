@@ -1,0 +1,82 @@
+# Default values for todo-backend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Replica configuration
+replicaCount: 1
+
+# Container image configuration
+image:
+  repository: todo-backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Name overrides
+nameOverride: ""
+fullnameOverride: ""
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 8000
+  nodePort: null
+
+# Resource limits (per K-005)
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+# Environment variables (non-sensitive) via ConfigMap
+env:
+  BACKEND_ENV: production
+  BACKEND_HOST: "0.0.0.0"
+  BACKEND_PORT: "8000"
+  CORS_ORIGINS: ""
+  POOL_SIZE: "5"
+  MAX_OVERFLOW: "10"
+  POOL_TIMEOUT: "30"
+  CHAT_MAX_MESSAGES: "100"
+
+# Secret configuration (references pre-created secrets)
+secrets:
+  existingSecret: todo-backend-secrets
+  keys:
+    databaseUrl: DATABASE_URL
+    secretKey: SECRET_KEY
+    openaiApiKey: OPENAI_API_KEY
+    authSecret: AUTH_SECRET
+
+# Health probes (per K-006)
+probes:
+  liveness:
+    enabled: true
+    path: /health
+    port: 8000
+    initialDelaySeconds: 15
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 3
+  readiness:
+    enabled: true
+    path: /health
+    port: 8000
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 10
+    failureThreshold: 3
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+
+# Security context
+securityContext: {}
+
+# Node selection
+nodeSelector: {}
+tolerations: []
+affinity: {}

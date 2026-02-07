@@ -1,0 +1,14 @@
+apiVersion: v2
+name: todo-backend
+description: Helm chart for Todo AI Chatbot backend service (includes MCP)
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Project Team
+keywords:
+  - todo
+  - backend
+  - fastapi
+  - mcp
+  - chatbot

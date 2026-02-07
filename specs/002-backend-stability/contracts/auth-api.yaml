@@ -1,0 +1,253 @@
+# API Contract: Authentication Endpoints
+
+## Overview
+
+This contract defines the authentication API endpoints for the Phase-2 Web Todo application backend.
+
+## Endpoints
+
+### POST /api/auth/register
+
+#### Description
+Registers a new user account with the provided credentials.
+
+#### Request
+- Method: POST
+- Path: `/api/auth/register`
+- Content-Type: `application/json`
+
+##### Request Body
+```json
+{
+  "email": "user@example.com",
+  "password": "securepassword123",
+  "name": "John Doe"
+}
+```
+
+###### Schema
+```json
+{
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "maxLength": 255
+    },
+    "password": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 72
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 100,
+      "nullable": true
+    }
+  },
+  "required": ["email", "password"]
+}
+```
+
+#### Responses
+
+##### 201 Created
+User registration successful.
+
+```json
+{
+  "success": true,
+  "user": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "email": "user@example.com",
+    "name": "John Doe"
+  },
+  "message": "Registration successful"
+}
+```
+
+##### 400 Bad Request
+Invalid input data.
+
+```json
+{
+  "detail": "Validation error message"
+}
+```
+
+##### 409 Conflict
+User with this email already exists.
+
+```json
+{
+  "detail": "User with this email already exists"
+}
+```
+
+##### 500 Internal Server Error
+Registration failed due to server error.
+
+```json
+{
+  "detail": "Registration failed: error details"
+}
+```
+
+### POST /api/auth/login
+
+#### Description
+Authenticates user credentials and returns an access token.
+
+#### Request
+- Method: POST
+- Path: `/api/auth/login`
+- Content-Type: `application/json`
+
+##### Request Body
+```json
+{
+  "email": "user@example.com",
+  "password": "securepassword123"
+}
+```
+
+###### Schema
+```json
+{
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "password": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": ["email", "password"]
+}
+```
+
+#### Responses
+
+##### 200 OK
+Login successful.
+
+```json
+{
+  "success": true,
+  "user": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "email": "user@example.com",
+    "name": "John Doe"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "message": "Login successful"
+}
+```
+
+##### 401 Unauthorized
+Invalid email or password.
+
+```json
+{
+  "detail": "Invalid email or password"
+}
+```
+
+### GET /api/auth/me
+
+#### Description
+Retrieves the current authenticated user's profile information.
+
+#### Request
+- Method: GET
+- Path: `/api/auth/me`
+- Headers:
+  - Authorization: `Bearer {access_token}`
+
+#### Responses
+
+##### 200 OK
+User profile retrieved successfully.
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "email": "user@example.com",
+  "name": "John Doe"
+}
+```
+
+##### 401 Unauthorized
+Invalid or missing authentication token.
+
+```json
+{
+  "detail": "Could not validate credentials"
+}
+```
+
+### POST /api/auth/logout
+
+#### Description
+Logs out the current user (client-side token removal).
+
+#### Request
+- Method: POST
+- Path: `/api/auth/logout`
+- Headers:
+  - Authorization: `Bearer {access_token}`
+
+#### Responses
+
+##### 200 OK
+Logout successful.
+
+```json
+{
+  "success": true,
+  "message": "Logout successful"
+}
+```
+
+##### 401 Unauthorized
+Invalid or missing authentication token.
+
+```json
+{
+  "detail": "Could not validate credentials"
+}
+```
+
+## Security
+
+### Authentication
+- Most endpoints require a valid JWT token in the Authorization header
+- Token format: `Bearer {access_token}`
+- Tokens expire after a configurable time (default: 30 minutes)
+
+### Password Handling
+- Passwords are hashed using bcrypt
+- Maximum password length: 72 bytes before hashing
+- No password information is stored in plaintext
+
+## Error Handling
+
+### Standard Error Format
+```json
+{
+  "detail": "Human-readable error message"
+}
+```
+
+### Common Status Codes
+- 200: Success
+- 201: Created
+- 400: Bad Request (validation error)
+- 401: Unauthorized (authentication required)
+- 404: Not Found
+- 409: Conflict (resource already exists)
+- 500: Internal Server Error

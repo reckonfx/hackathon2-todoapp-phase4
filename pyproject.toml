@@ -1,0 +1,13 @@
+[project]
+name = "todo-app"
+version = "1.0.0"
+description = "A Python CLI todo app following Spec-Driven Development"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "rich>=13.7.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

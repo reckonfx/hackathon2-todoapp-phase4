@@ -1,0 +1,31 @@
+# Development environment overrides for todo-backend
+
+replicaCount: 1
+
+image:
+  tag: dev
+  pullPolicy: IfNotPresent  # Use locally loaded images
+
+# Expose backend externally for browser access
+service:
+  type: NodePort
+  port: 8000
+  nodePort: 30800
+
+env:
+  BACKEND_ENV: development
+  # Allow all origins for local development (minikube tunnels use random ports)
+  CORS_ORIGINS: "*"
+  POOL_SIZE: "2"
+  MAX_OVERFLOW: "5"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 512Mi
+
+secrets:
+  existingSecret: todo-backend-secrets

@@ -1,0 +1,278 @@
+openapi: 3.1.0
+info:
+  title: Todo AI Chatbot API
+  description: |
+    Phase III Chat API for the Todo AI Chatbot.
+    Provides a single stateless endpoint for conversational task management.
+  version: 1.0.0
+  contact:
+    name: Phase III Development
+  license:
+    name: MIT
+
+servers:
+  - url: /api
+    description: API base path
+
+paths:
+  /{user_id}/chat:
+    post:
+      operationId: sendChatMessage
+      summary: Send a chat message
+      description: |
+        Process a user message through the AI agent and return the assistant's response.
+
+        **Stateless Operation**:
+        - Conversation context is reconstructed from database on each request
+        - User message is persisted before agent execution
+        - Assistant message is persisted after agent execution
+
+        **Spec References**: ACR-001 to ACR-017
+      tags:
+        - Chat
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: The authenticated user's ID (must match auth token)
+          schema:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+            examples:
+              newConversation:
+                summary: Start new conversation
+                value:
+                  message: "Add buy groceries to my list"
+              existingConversation:
+                summary: Continue existing conversation
+                value:
+                  message: "Also add milk"
+                  conversation_id: "660e8400-e29b-41d4-a716-446655440001"
+      responses:
+        '200':
+          description: Successful response from AI assistant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+              examples:
+                taskCreated:
+                  summary: Task creation response
+                  value:
+                    conversation_id: "660e8400-e29b-41d4-a716-446655440001"
+                    message_id: "770e8400-e29b-41d4-a716-446655440002"
+                    response: "I've added 'buy groceries' to your tasks."
+                    tool_calls:
+                      - tool: "add_task"
+                        parameters:
+                          user_id: "550e8400-e29b-41d4-a716-446655440000"
+                          title: "buy groceries"
+                          priority: "medium"
+                        result:
+                          success: true
+                          task:
+                            id: "880e8400-e29b-41d4-a716-446655440003"
+                            title: "buy groceries"
+                            priority: "medium"
+                            completed: false
+                          message: "Task created successfully"
+                    created_at: "2026-01-28T12:00:00Z"
+                noToolCall:
+                  summary: Response without tool call
+                  value:
+                    conversation_id: "660e8400-e29b-41d4-a716-446655440001"
+                    message_id: "770e8400-e29b-41d4-a716-446655440002"
+                    response: "What would you like to add?"
+                    tool_calls: []
+                    created_at: "2026-01-28T12:00:00Z"
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                emptyMessage:
+                  summary: Empty message
+                  value:
+                    error: "validation_error"
+                    details:
+                      - field: "message"
+                        message: "Message content is required"
+                messageTooLong:
+                  summary: Message exceeds limit
+                  value:
+                    error: "validation_error"
+                    details:
+                      - field: "message"
+                        message: "Message must be 1-10000 characters"
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "unauthorized"
+                message: "Authentication required"
+        '404':
+          description: Conversation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "not_found"
+                message: "Conversation not found"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "internal_error"
+                message: "An error occurred"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Better Auth JWT token
+
+  schemas:
+    ChatRequest:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          minLength: 1
+          maxLength: 10000
+          description: User's message content
+          example: "Add buy groceries to my list"
+        conversation_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: |
+            UUID of existing conversation to continue.
+            If omitted, a new conversation is created.
+          example: "660e8400-e29b-41d4-a716-446655440001"
+
+    ChatResponse:
+      type: object
+      required:
+        - conversation_id
+        - message_id
+        - response
+        - tool_calls
+        - created_at
+      properties:
+        conversation_id:
+          type: string
+          format: uuid
+          description: UUID of the conversation
+          example: "660e8400-e29b-41d4-a716-446655440001"
+        message_id:
+          type: string
+          format: uuid
+          description: UUID of the assistant's response message
+          example: "770e8400-e29b-41d4-a716-446655440002"
+        response:
+          type: string
+          description: Assistant's text response
+          example: "I've added 'buy groceries' to your tasks."
+        tool_calls:
+          type: array
+          description: List of MCP tool invocations (may be empty)
+          items:
+            $ref: '#/components/schemas/ToolCall'
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of the assistant's message
+          example: "2026-01-28T12:00:00Z"
+
+    ToolCall:
+      type: object
+      required:
+        - tool
+        - parameters
+        - result
+      properties:
+        tool:
+          type: string
+          description: Name of the MCP tool invoked
+          enum:
+            - add_task
+            - list_tasks
+            - complete_task
+            - delete_task
+            - update_task
+          example: "add_task"
+        parameters:
+          type: object
+          description: Parameters passed to the tool
+          additionalProperties: true
+          example:
+            user_id: "550e8400-e29b-41d4-a716-446655440000"
+            title: "buy groceries"
+        result:
+          type: object
+          description: Result returned by the tool
+          additionalProperties: true
+          example:
+            success: true
+            task:
+              id: "880e8400-e29b-41d4-a716-446655440003"
+              title: "buy groceries"
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error code
+          enum:
+            - validation_error
+            - unauthorized
+            - not_found
+            - internal_error
+          example: "validation_error"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Authentication required"
+        details:
+          type: array
+          description: Detailed validation errors (for validation_error only)
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                description: Field that failed validation
+                example: "message"
+              message:
+                type: string
+                description: Validation failure reason
+                example: "Message content is required"
+
+tags:
+  - name: Chat
+    description: Conversational chat endpoint for AI-powered task management

@@ -1,0 +1,40 @@
+Thank you for installing {{ .Chart.Name }}!
+
+Release: {{ .Release.Name }}
+Namespace: {{ .Release.Namespace }}
+Chart Version: {{ .Chart.Version }}
+App Version: {{ .Chart.AppVersion }}
+
+To access the frontend:
+{{- if contains "NodePort" .Values.service.type }}
+
+  export NODE_PORT=$(kubectl get -n {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" svc {{ include "todo-frontend.fullname" . }})
+  echo "http://$(minikube ip):$NODE_PORT"
+
+  Or use minikube service:
+  minikube service {{ include "todo-frontend.fullname" . }} -n {{ .Release.Namespace }}
+
+{{- else if contains "LoadBalancer" .Values.service.type }}
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+  You can watch the status by running:
+  kubectl get svc -n {{ .Release.Namespace }} -w {{ include "todo-frontend.fullname" . }}
+
+  export SERVICE_IP=$(kubectl get svc -n {{ .Release.Namespace }} {{ include "todo-frontend.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  echo "http://$SERVICE_IP:{{ .Values.service.port }}"
+
+{{- else if contains "ClusterIP" .Values.service.type }}
+
+  kubectl port-forward svc/{{ include "todo-frontend.fullname" . }} {{ .Values.service.port }}:{{ .Values.service.port }} -n {{ .Release.Namespace }}
+  echo "http://127.0.0.1:{{ .Values.service.port }}"
+
+{{- end }}
+
+To check pod status:
+  kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }} -n {{ .Release.Namespace }}
+
+To view logs:
+  kubectl logs -l app.kubernetes.io/instance={{ .Release.Name }} -n {{ .Release.Namespace }}
+
+To check deployment status:
+  kubectl rollout status deployment/{{ include "todo-frontend.fullname" . }} -n {{ .Release.Namespace }}

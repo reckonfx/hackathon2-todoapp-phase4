@@ -1,0 +1,24 @@
+# Production environment overrides for todo-backend
+
+replicaCount: 2
+
+image:
+  tag: prod
+  pullPolicy: IfNotPresent
+
+env:
+  BACKEND_ENV: production
+  CORS_ORIGINS: "http://todo-frontend:3000"
+  POOL_SIZE: "10"
+  MAX_OVERFLOW: "20"
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+secrets:
+  existingSecret: todo-backend-secrets

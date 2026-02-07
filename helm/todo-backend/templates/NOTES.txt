@@ -1,0 +1,38 @@
+Thank you for installing {{ .Chart.Name }}!
+
+Release: {{ .Release.Name }}
+Namespace: {{ .Release.Namespace }}
+Chart Version: {{ .Chart.Version }}
+App Version: {{ .Chart.AppVersion }}
+
+IMPORTANT: This chart requires a pre-created Kubernetes Secret.
+Secret name: {{ .Values.secrets.existingSecret }}
+
+To create the required secret (if not already created):
+  kubectl create secret generic {{ .Values.secrets.existingSecret }} \
+    --from-literal={{ .Values.secrets.keys.databaseUrl }}='your-database-url' \
+    --from-literal={{ .Values.secrets.keys.secretKey }}='your-secret-key' \
+    --from-literal={{ .Values.secrets.keys.openaiApiKey }}='your-openai-key' \
+    --from-literal={{ .Values.secrets.keys.authSecret }}='your-auth-secret' \
+    -n {{ .Release.Namespace }}
+
+To access the backend (for testing):
+{{- if contains "ClusterIP" .Values.service.type }}
+
+  kubectl port-forward svc/{{ include "todo-backend.fullname" . }} {{ .Values.service.port }}:{{ .Values.service.port }} -n {{ .Release.Namespace }}
+  echo "http://127.0.0.1:{{ .Values.service.port }}/health"
+
+{{- end }}
+
+To check pod status:
+  kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }} -n {{ .Release.Namespace }}
+
+To view logs:
+  kubectl logs -l app.kubernetes.io/instance={{ .Release.Name }} -n {{ .Release.Namespace }}
+
+To check deployment status:
+  kubectl rollout status deployment/{{ include "todo-backend.fullname" . }} -n {{ .Release.Namespace }}
+
+Service DNS (for frontend communication):
+  http://{{ include "todo-backend.fullname" . }}:{{ .Values.service.port }}
+  http://{{ include "todo-backend.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}

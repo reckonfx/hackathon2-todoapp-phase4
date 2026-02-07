@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Local PostgreSQL service (default for development)
+  postgres:
+    image: postgres:16-alpine
+    container_name: todo_postgres
+    environment:
+      POSTGRES_DB: todo_db
+      POSTGRES_USER: todo_user
+      POSTGRES_PASSWORD: todo_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U todo_user -d todo_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Alternative: For Neon PostgreSQL, comment out the postgres service above and uncomment below:
+  # neon_proxy:
+  #   image: ghcr.io/neondatabase/serverless-proxy:latest
+  #   container_name: neon_proxy
+  #   environment:
+  #     NEON_CONNECTION_STRING: "postgresql://username:password@ep-xxxxxx.us-east-1.aws.neon.tech/dbname?sslmode=require"
+  #   ports:
+  #     - "5433:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: todo_backend
+    ports:
+      - "8000:8000"
+    environment:
+      # For local PostgreSQL (default):
+      DATABASE_URL: postgresql://todo_user:todo_password@postgres:5432/todo_db
+      # For Neon PostgreSQL, comment out the line above and uncomment below:
+      # DATABASE_URL: postgresql+asyncpg://username:password@neon_proxy:5432/dbname?sslmode=require
+      SECRET_KEY: your-super-secret-key-change-in-production
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+    depends_on:
+      postgres:
+        condition: service_healthy
+      # For Neon PostgreSQL, comment out the postgres depends_on above and uncomment below:
+      # neon_proxy:
+      #   condition: service_started
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: todo_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp:*)",
+      "Bash(uv init:*)",
+      "Bash(uv add:*)",
+      "Bash(uv pip install rich)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json)",
+      "Bash(bash:*)"
+    ]
+  }
+}

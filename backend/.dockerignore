@@ -1,0 +1,65 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*.class
+*.so
+.Python
+.env
+.env.*
+*.egg-info
+.eggs
+dist
+build
+*.egg
+
+# Virtual environments
+venv
+.venv
+env
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Testing
+.pytest_cache
+.coverage
+htmlcov
+.tox
+
+# Local database files
+*.db
+*.sqlite3
+
+# Logs
+*.log
+logs
+
+# Documentation
+docs
+*.md
+!README.md
+
+# Test files
+tests
+test_*.py
+*_test.py
+conftest.py
+
+# Debug scripts
+debug_*.py
+check_*.py
+comprehensive_test.py
+
+# Alembic versions (keep for migrations)
+# alembic/versions
+
+# Misc
+.DS_Store
+Thumbs.db
