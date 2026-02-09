@@ -1,7 +1,7 @@
 /**
  * Dashboard page for the Phase-2 Web-Based Todo Application.
- * Main page for authenticated users with Black & Gold premium theme.
- * Styled using modern-ui-skill methodology.
+ * Main page for authenticated users.
+ * Uses design token system for theme-adaptive styling.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -109,7 +109,7 @@ const DashboardPage: React.FC = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
         </svg>
       ),
-      gradient: 'from-[#d4af37] to-[#f4c430]'
+      gradientStyle: { background: 'linear-gradient(to bottom right, var(--accent-gradient-from), var(--accent-gradient-to))' }
     },
     {
       label: 'Active',
@@ -119,7 +119,7 @@ const DashboardPage: React.FC = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      gradient: 'from-amber-500 to-orange-500'
+      gradientStyle: { background: 'linear-gradient(to bottom right, #f59e0b, #ea580c)' }
     },
     {
       label: 'Completed',
@@ -129,7 +129,7 @@ const DashboardPage: React.FC = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      gradient: 'from-emerald-500 to-green-500'
+      gradientStyle: { background: 'linear-gradient(to bottom right, #10b981, #22c55e)' }
     },
     {
       label: 'Completion Rate',
@@ -139,7 +139,7 @@ const DashboardPage: React.FC = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
         </svg>
       ),
-      gradient: 'from-purple-500 to-pink-500'
+      gradientStyle: { background: 'linear-gradient(to bottom right, #8b5cf6, #ec4899)' }
     }
   ];
 
@@ -149,23 +149,23 @@ const DashboardPage: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-gradient-gold">
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl" style={{ background: 'linear-gradient(to right, var(--accent-gradient-from), var(--accent-gradient-to))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               My Workspace
             </h1>
             {user && (
-              <p className="mt-3 text-lg text-[#b8b8b8]">
-                Welcome back, <span className="font-semibold text-[#d4af37]">{user.name || user.email.split('@')[0]}</span>! Manage your tasks with our premium interface.
+              <p className="mt-3 text-lg text-secondary">
+                Welcome back, <span className="font-semibold" style={{ color: 'var(--accent-primary)' }}>{user.name || user.email.split('@')[0]}</span>! Manage your tasks with our premium interface.
               </p>
             )}
             {!user && (
-              <p className="mt-3 text-lg text-[#b8b8b8]">
+              <p className="mt-3 text-lg text-secondary">
                 Manage your tasks with our premium, distraction-free interface.
               </p>
             )}
           </div>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="btn-primary inline-flex items-center gap-1.5 px-3 py-2 text-xs w-fit self-start md:self-auto"
+            className="btn-primary inline-flex items-center gap-1.5 px-3 py-2 text-xs w-fit self-start md:self-auto focus-ring"
           >
             <span className={`text-sm font-bold transition-transform duration-300 ${showForm ? 'rotate-45' : ''}`}>+</span>
             <span className="font-semibold">{showForm ? 'Close' : 'Add Task'}</span>
@@ -182,14 +182,14 @@ const DashboardPage: React.FC = () => {
             >
               <div className="relative flex items-center justify-between">
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#b8b8b8] mb-2">
+                  <p className="text-xs font-bold uppercase tracking-wider text-tertiary mb-2">
                     {stat.label}
                   </p>
-                  <p className="text-3xl sm:text-4xl font-extrabold text-[#d4af37]">
+                  <p className="text-3xl sm:text-4xl font-extrabold" style={{ color: 'var(--accent-primary)' }}>
                     {stat.value}
                   </p>
                 </div>
-                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300" style={stat.gradientStyle}>
                   {stat.icon}
                 </div>
               </div>
@@ -199,27 +199,27 @@ const DashboardPage: React.FC = () => {
 
         {/* Task Form */}
         {showForm && (
-          <div className="card glass !border-[#d4af37]/30 animate-in slide-in-from-top-4 duration-500">
+          <div className="card glass animate-in slide-in-from-top-4 duration-500" style={{ borderColor: 'var(--accent-shadow)' }}>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#d4af37] to-[#f4c430] rounded-xl flex items-center justify-center">
-                <svg className="w-6 h-6 text-[#0a0a0a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(to bottom right, var(--accent-gradient-from), var(--accent-gradient-to))' }}>
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--bg-primary)' }}>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-white">Create New Task</h3>
+              <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Create New Task</h2>
             </div>
             <TaskForm onTaskSaved={handleTaskSaved} onCancel={() => setShowForm(false)} />
           </div>
         )}
 
         {/* Search and Filter Controls */}
-        <div className="card glass !border-[#d4af37]/20 mt-6">
+        <div className="card glass mt-6" style={{ borderColor: 'var(--accent-light)' }}>
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search Bar */}
             <div className="flex-1">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <svg className="w-5 h-5 text-[#6b6b6b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
@@ -228,14 +228,15 @@ const DashboardPage: React.FC = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search tasks by title or description..."
-                  className="input-field pl-12 pr-4 py-4 w-full"
+                  className="input-field pl-12 pr-4 py-4 w-full focus-ring"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center focus-ring"
+                    aria-label="Clear search"
                   >
-                    <svg className="w-5 h-5 text-[#6b6b6b] hover:text-[#d4af37] transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-tertiary hover:text-red-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
@@ -244,21 +245,24 @@ const DashboardPage: React.FC = () => {
             </div>
 
             {/* Filter Buttons */}
-            <div className="filter-tabs-container flex gap-2 p-1.5 rounded-xl">
+            <div className="filter-tabs-container flex gap-2 p-1.5 rounded-xl" role="tablist" aria-label="Task filters">
               {[
-                { key: 'all', label: 'All Tasks', icon: '📋' },
-                { key: 'active', label: 'Active', icon: '⚡' },
-                { key: 'completed', label: 'Completed', icon: '✅' }
-              ].map(({ key, label, icon }) => (
+                { key: 'all', label: 'All Tasks', icon: '\uD83D\uDCCB', iconLabel: 'clipboard' },
+                { key: 'active', label: 'Active', icon: '\u26A1', iconLabel: 'lightning bolt' },
+                { key: 'completed', label: 'Completed', icon: '\u2705', iconLabel: 'checkmark' }
+              ].map(({ key, label, icon, iconLabel }) => (
                 <button
                   key={key}
                   onClick={() => setFilter(key as any)}
-                  className={`filter-tab px-5 py-3 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center gap-2 ${filter === key
-                    ? 'bg-gradient-to-r from-[#d4af37] to-[#f4c430] text-[#0a0a0a] shadow-lg'
-                    : 'text-[#b8b8b8] hover:text-white hover:bg-[#2a2a2a]'
+                  role="tab"
+                  aria-selected={filter === key}
+                  className={`filter-tab px-5 py-3 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center gap-2 focus-ring ${filter === key
+                    ? 'shadow-lg'
+                    : 'text-secondary hover:bg-tertiary'
                     }`}
+                  style={filter === key ? { background: 'linear-gradient(to right, var(--accent-gradient-from), var(--accent-gradient-to))', color: 'var(--bg-primary)' } : undefined}
                 >
-                  <span>{icon}</span>
+                  <span role="img" aria-label={iconLabel}>{icon}</span>
                   <span className="hidden sm:inline">{label}</span>
                 </button>
               ))}
@@ -266,15 +270,15 @@ const DashboardPage: React.FC = () => {
           </div>
 
           {/* Results Info */}
-          <div className="mt-4 pt-4 border-t border-[#2a2a2a] flex items-center justify-between">
-            <p className="text-sm text-[#b8b8b8]">
+          <div className="mt-4 pt-4 border-t border-primary flex items-center justify-between">
+            <p className="text-sm text-secondary">
               {searchQuery ? (
                 <>
-                  Found <span className="font-bold text-[#d4af37]">{filteredTasks.length}</span> result{filteredTasks.length !== 1 ? 's' : ''} for "{searchQuery}"
+                  Found <span className="font-bold" style={{ color: 'var(--accent-primary)' }}>{filteredTasks.length}</span> result{filteredTasks.length !== 1 ? 's' : ''} for &quot;{searchQuery}&quot;
                 </>
               ) : (
                 <>
-                  Showing <span className="font-bold text-[#d4af37]">{filteredTasks.length}</span> {filter === 'all' ? 'task' : filter}{filteredTasks.length !== 1 ? 's' : ''}
+                  Showing <span className="font-bold" style={{ color: 'var(--accent-primary)' }}>{filteredTasks.length}</span> {filter === 'all' ? 'task' : filter}{filteredTasks.length !== 1 ? 's' : ''}
                 </>
               )}
             </p>
@@ -284,7 +288,8 @@ const DashboardPage: React.FC = () => {
                   setSearchQuery('');
                   setFilter('all');
                 }}
-                className="text-sm font-semibold text-[#d4af37] hover:text-[#f4c430] transition-colors duration-300"
+                className="text-sm font-semibold transition-colors duration-300 focus-ring"
+                style={{ color: 'var(--accent-primary)' }}
               >
                 Clear filters
               </button>
@@ -294,12 +299,12 @@ const DashboardPage: React.FC = () => {
 
         {/* Task List */}
         <div className="space-y-4 mt-6">
-          <div className="card glass !p-0 overflow-hidden !border-[#d4af37]/20">
+          <div className="card glass !p-0 overflow-hidden" style={{ borderColor: 'var(--accent-light)' }}>
             {loading ? (
               <div className="flex justify-center items-center py-20">
                 <div className="relative">
-                  <div className="w-16 h-16 border-4 border-[#2a2a2a] rounded-full" />
-                  <div className="w-16 h-16 border-4 border-[#d4af37] border-t-transparent rounded-full animate-spin absolute top-0" />
+                  <div className="w-16 h-16 border-4 border-primary rounded-full" />
+                  <div className="w-16 h-16 border-4 border-t-transparent rounded-full animate-spin absolute top-0" style={{ borderColor: 'var(--accent-primary)', borderTopColor: 'transparent' }} />
                 </div>
               </div>
             ) : (

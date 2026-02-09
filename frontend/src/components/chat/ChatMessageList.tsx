@@ -28,7 +28,7 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
   }, [messages, isLoading]);
 
   return (
-    <div className={styles.messageList} ref={containerRef}>
+    <div className={styles.messageList} ref={containerRef} aria-live="polite">
       {messages.length === 0 && !isLoading && (
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>💬</div>

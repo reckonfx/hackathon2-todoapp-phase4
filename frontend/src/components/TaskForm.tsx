@@ -90,7 +90,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onTaskSaved, onCancel }) => {
           disabled={loading}
           required
           maxLength={200}
-          className="input-field py-4"
+          className="input-field py-4 focus-ring"
           placeholder="What needs to be done?"
         />
       </div>
@@ -106,7 +106,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onTaskSaved, onCancel }) => {
           onChange={(e) => setDescription(e.target.value)}
           disabled={loading}
           maxLength={1000}
-          className="input-field min-h-[120px] resize-none"
+          className="input-field min-h-[120px] resize-none focus-ring"
           placeholder="Add some details (optional)..."
         />
       </div>
@@ -117,7 +117,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onTaskSaved, onCancel }) => {
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="px-6 py-3 text-sm font-bold text-secondary hover:text-primary transition-colors disabled:opacity-50"
+            className="px-6 py-3 text-sm font-bold text-secondary hover:text-primary transition-colors disabled:opacity-50 focus-ring"
           >
             Cancel
           </button>
@@ -125,7 +125,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onTaskSaved, onCancel }) => {
         <button
           type="submit"
           disabled={loading}
-          className="btn-primary min-w-[140px] flex items-center justify-center gap-2"
+          className="btn-primary min-w-[140px] flex items-center justify-center gap-2 focus-ring"
         >
           {loading ? (
             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
