@@ -12,6 +12,11 @@ const config = {
                 foreground: "var(--foreground)",
                 primary: "var(--brand-primary)",
                 secondary: "var(--brand-secondary)",
+                accent: {
+                    primary: "var(--accent-primary)",
+                    secondary: "var(--accent-secondary)",
+                    light: "var(--accent-light)",
+                },
             },
         },
     },

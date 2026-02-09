@@ -58,8 +58,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
               </svg>
             </div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-white mb-2">Welcome Back</h2>
-            <p className="text-[#b8b8b8]">Sign in to your premium workspace</p>
+            <h1 className="text-3xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>Welcome Back</h1>
+            <p className="text-secondary">Sign in to your premium workspace</p>
           </div>
 
           {/* Error Message */}
@@ -75,7 +75,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Email Field */}
             <div className="space-y-2">
-              <label htmlFor="email-address" className="block text-xs font-bold uppercase tracking-widest text-[#d4af37] ml-1">
+              <label htmlFor="email-address" className="block text-xs font-bold uppercase tracking-widest ml-1" style={{ color: 'var(--accent-primary)' }}>
                 Email Address
               </label>
               <input
@@ -86,14 +86,14 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
-                className="input-field py-4"
+                className="input-field py-4 focus-ring"
                 placeholder="you@example.com"
               />
             </div>
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-xs font-bold uppercase tracking-widest text-[#d4af37] ml-1">
+              <label htmlFor="password" className="block text-xs font-bold uppercase tracking-widest ml-1" style={{ color: 'var(--accent-primary)' }}>
                 Password
               </label>
               <div className="relative">
@@ -105,13 +105,17 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={loading}
-                  className="input-field py-4 pr-12"
+                  className="input-field py-4 pr-12 focus-ring"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#6b6b6b] hover:text-[#d4af37] transition-colors duration-300"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-tertiary transition-colors duration-300 focus-ring"
+                  style={{ '--hover-color': 'var(--accent-primary)' } as React.CSSProperties}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-primary)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '')}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                   disabled={loading}
                 >
                   {showPassword ? (
@@ -132,7 +136,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full py-4 mt-8 flex items-center justify-center gap-3 group"
+              className="btn-primary w-full py-4 mt-8 flex items-center justify-center gap-3 group focus-ring"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-[#0a0a0a]/30 border-t-[#0a0a0a] rounded-full animate-spin" />
@@ -152,8 +156,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
           {/* Register Link */}
           <div className="text-center">
-            <span className="text-[#b8b8b8]">New to Todo Premium?</span>{' '}
-            <Link href="/register" className="text-[#d4af37] hover:text-[#f4c430] font-semibold transition-colors duration-300">
+            <span className="text-secondary">New to Todo Premium?</span>{' '}
+            <Link href="/register" className="font-semibold transition-colors duration-300 focus-ring" style={{ color: 'var(--accent-primary)' }}>
               Create an account
             </Link>
           </div>

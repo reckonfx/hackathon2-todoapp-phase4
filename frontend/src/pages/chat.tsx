@@ -42,8 +42,8 @@ const ChatPage: React.FC = () => {
       <MainLayout title="AI Assistant">
         <div className="flex justify-center items-center min-h-[60vh]">
           <div className="relative">
-            <div className="w-16 h-16 border-4 border-[#2a2a2a] rounded-full" />
-            <div className="w-16 h-16 border-4 border-[#d4af37] border-t-transparent rounded-full animate-spin absolute top-0" />
+            <div className="w-16 h-16 border-4 border-primary rounded-full" />
+            <div className="w-16 h-16 border-4 border-t-transparent rounded-full animate-spin absolute top-0" style={{ borderColor: 'var(--accent-primary)', borderTopColor: 'transparent' }} />
           </div>
         </div>
       </MainLayout>
@@ -60,17 +60,20 @@ const ChatPage: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gradient-gold">
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight" style={{ background: 'linear-gradient(to right, var(--accent-gradient-from), var(--accent-gradient-to))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               AI Task Assistant
             </h1>
-            <p className="mt-2 text-[#b8b8b8]">
+            <p className="mt-2 text-secondary">
               Manage your tasks using natural language or voice commands
             </p>
           </div>
           <div className="flex gap-3">
             <a
               href="/dashboard"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] text-[#b8b8b8] hover:text-white hover:border-[#d4af37]/50 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-secondary hover:border-opacity-50 transition-all duration-300 focus-ring"
+              style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--accent-primary)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border-color)')}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -82,49 +85,51 @@ const ChatPage: React.FC = () => {
 
         {/* Feature Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="card glass !p-4 !border-[#d4af37]/20">
+          <div className="card glass !p-4" style={{ borderColor: 'var(--accent-light)' }}>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#d4af37] to-[#f4c430] flex items-center justify-center text-xl">
-                💬
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xl" style={{ background: 'linear-gradient(to bottom right, var(--accent-gradient-from), var(--accent-gradient-to))' }}>
+                <span role="img" aria-label="Chat bubble">💬</span>
               </div>
               <div>
-                <h3 className="font-semibold text-white">Natural Language</h3>
-                <p className="text-sm text-[#b8b8b8]">Type your requests naturally</p>
+                <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>Natural Language</h3>
+                <p className="text-sm text-secondary">Type your requests naturally</p>
               </div>
             </div>
           </div>
-          <div className="card glass !p-4 !border-[#d4af37]/20">
+          <div className="card glass !p-4" style={{ borderColor: 'var(--accent-light)' }}>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl">
-                🎤
+                <span role="img" aria-label="Microphone">🎤</span>
               </div>
               <div>
-                <h3 className="font-semibold text-white">Voice Commands</h3>
-                <p className="text-sm text-[#b8b8b8]">Speak to manage tasks</p>
+                <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>Voice Commands</h3>
+                <p className="text-sm text-secondary">Speak to manage tasks</p>
               </div>
             </div>
           </div>
-          <div className="card glass !p-4 !border-[#d4af37]/20">
+          <div className="card glass !p-4" style={{ borderColor: 'var(--accent-light)' }}>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center text-xl">
-                ✅
+                <span role="img" aria-label="Checkmark">✅</span>
               </div>
               <div>
-                <h3 className="font-semibold text-white">Smart Actions</h3>
-                <p className="text-sm text-[#b8b8b8]">AI understands your intent</p>
+                <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>Smart Actions</h3>
+                <p className="text-sm text-secondary">AI understands your intent</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Chat Container */}
-        <div className="card glass !p-0 overflow-hidden !border-[#d4af37]/30" style={{ height: 'calc(100vh - 380px)', minHeight: '400px' }}>
+        <div className="card glass !p-0 overflow-hidden" style={{ height: 'calc(100vh - 380px)', minHeight: '400px', borderColor: 'var(--accent-shadow)' }}>
           <ChatContainer userId={user.id} />
         </div>
 
         {/* Quick Tips */}
-        <div className="card glass !border-[#2a2a2a] !p-4">
-          <h4 className="text-sm font-semibold text-[#d4af37] mb-2">💡 Quick Tips</h4>
+        <div className="card glass !p-4" style={{ borderColor: 'var(--border-color)' }}>
+          <h2 className="text-sm font-semibold mb-2" style={{ color: 'var(--accent-primary)' }}>
+            <span role="img" aria-label="Light bulb">💡</span> Quick Tips
+          </h2>
           <div className="flex flex-wrap gap-2">
             {[
               'Add buy groceries',
@@ -135,9 +140,10 @@ const ChatPage: React.FC = () => {
             ].map((tip, i) => (
               <span
                 key={i}
-                className="px-3 py-1 text-xs rounded-full bg-[#1a1a1a] text-[#b8b8b8] border border-[#2a2a2a]"
+                className="px-3 py-1 text-xs rounded-full text-secondary border"
+                style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}
               >
-                "{tip}"
+                &quot;{tip}&quot;
               </span>
             ))}
           </div>

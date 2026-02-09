@@ -64,13 +64,13 @@ const HomePage: React.FC = () => {
 
       {/* Hero Section */}
       <div className="relative overflow-hidden -mt-10">
-        {/* Animated Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-indigo-900/20 to-slate-900/40" />
+        {/* Background Gradient - uses accent tokens */}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom right, rgba(var(--accent-gradient-from-rgb, 79,70,229), 0.3), rgba(var(--accent-gradient-to-rgb, 124,58,237), 0.2), rgba(15,23,42,0.4))' }} />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSg3NiwyMDEsMjQwLDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-20" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
           <div className="text-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-300 rounded-full text-sm font-semibold mb-8 animate-in fade-in zoom-in duration-700 delay-200 neon-glow">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-8 animate-in fade-in zoom-in duration-700 delay-200 neon-glow" style={{ background: 'rgba(var(--accent-gradient-from-rgb, 79,70,229), 0.2)', color: 'var(--accent-primary)' }}>
               <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" style={{ maxWidth: '16px', maxHeight: '16px' }}>
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
@@ -79,20 +79,20 @@ const HomePage: React.FC = () => {
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8">
               <span className="block mb-2 neon-text">Your Perfect</span>
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-sky-400 neon-text">
+              <span className="block neon-text" style={{ background: 'linear-gradient(to right, var(--accent-gradient-from), var(--accent-gradient-to))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 Task Manager
               </span>
             </h1>
 
-            <p className="max-w-2xl mx-auto text-xl sm:text-2xl text-secondary mb-12 leading-relaxed neon-text">
+            <p className="max-w-2xl mx-auto text-xl sm:text-2xl text-secondary mb-12 leading-relaxed">
               Streamline your productivity with our beautifully designed, lightning-fast task management platform.
-              <span className="block mt-2 font-semibold text-white">Simple. Powerful. Yours.</span>
+              <span className="block mt-2 font-semibold" style={{ color: 'var(--text-primary)' }}>Simple. Powerful. Yours.</span>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
               <Link
                 href="/register"
-                className="neon-btn px-8 py-4 text-white text-lg font-bold rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
+                className="neon-btn px-8 py-4 text-white text-lg font-bold rounded-2xl shadow-xl hover:scale-[1.02] transition-all duration-300 flex items-center gap-3 focus-ring"
               >
                 Start Free Today
                 <svg className="w-5 h-5 flex-shrink-0 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ maxWidth: '20px', maxHeight: '20px' }}>
@@ -101,7 +101,7 @@ const HomePage: React.FC = () => {
               </Link>
               <Link
                 href="/login"
-                className="neon-btn px-8 py-4 text-white text-lg font-bold rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-300"
+                className="neon-btn px-8 py-4 text-white text-lg font-bold rounded-2xl shadow-xl hover:scale-[1.02] transition-all duration-300 focus-ring"
               >
                 Sign In
               </Link>
@@ -112,10 +112,10 @@ const HomePage: React.FC = () => {
               {stats.map((stat, index) => (
                 <div
                   key={index}
-                  className="card glass text-center transform hover:scale-105 transition-all duration-300 animate-in fade-in zoom-in neon-glow"
+                  className="card glass text-center hover:scale-[1.02] transition-all duration-300 animate-in fade-in zoom-in neon-glow"
                   style={{ animationDelay: `${index * 100 + 400}ms` }}
                 >
-                  <div className="text-3xl sm:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400 neon-text">
+                  <div className="text-3xl sm:text-4xl font-extrabold neon-text" style={{ background: 'linear-gradient(to right, var(--accent-gradient-from), var(--accent-gradient-to))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     {stat.value}
                   </div>
                   <div className="text-sm sm:text-base text-secondary font-semibold mt-2">{stat.label}</div>
@@ -132,9 +132,9 @@ const HomePage: React.FC = () => {
           <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <h2 className="text-4xl sm:text-5xl font-extrabold mb-4 neon-text">
               Everything You Need,
-              <span className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400 neon-text">Nothing You Don't</span>
+              <span className="block mt-2 neon-text" style={{ background: 'linear-gradient(to right, var(--accent-gradient-from), var(--accent-gradient-to))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Nothing You Don&apos;t</span>
             </h2>
-            <p className="text-xl text-secondary max-w-2xl mx-auto neon-text">
+            <p className="text-xl text-secondary max-w-2xl mx-auto">
               Powerful features wrapped in a delightful user experience
             </p>
           </div>
@@ -143,15 +143,15 @@ const HomePage: React.FC = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="group card glass hover:ring-2 hover:ring-cyan-500/50 transition-all duration-500 transform hover:scale-105 animate-in fade-in slide-in-from-bottom-4 neon-glow"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="group card glass hover:ring-2 transition-all duration-500 hover:scale-[1.02] animate-in fade-in slide-in-from-bottom-4 neon-glow"
+                style={{ animationDelay: `${index * 100}ms`, '--tw-ring-color': 'var(--accent-shadow)' } as React.CSSProperties}
               >
                 <div className="flex items-start gap-5">
-                  <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-cyan-500/30 group-hover:shadow-xl group-hover:shadow-cyan-500/40 transition-all duration-300 group-hover:scale-110">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(to bottom right, var(--accent-gradient-from), var(--accent-gradient-to))', boxShadow: '0 10px 15px -3px var(--accent-shadow)' }}>
                     {feature.icon}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-3 text-white">{feature.title}</h3>
+                    <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>{feature.title}</h3>
                     <p className="text-secondary leading-relaxed">{feature.description}</p>
                   </div>
                 </div>
@@ -163,27 +163,28 @@ const HomePage: React.FC = () => {
 
       {/* CTA Section */}
       <div className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 opacity-95" />
+        <div className="absolute inset-0 opacity-95" style={{ background: 'linear-gradient(to right, var(--accent-gradient-from), var(--accent-gradient-to))' }} />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQtd2hpdGUiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZC13aGl0ZSkiLz48L3N2Zz4=')] opacity-20" />
 
         <div className="relative max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 neon-text">
             Ready to Transform Your Productivity?
           </h2>
-          <p className="text-xl text-blue-200 mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
+          <p className="text-xl text-white/80 mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
             Join thousands of users who have already supercharged their workflow. Get started in seconds.
           </p>
           <Link
             href="/register"
-            className="neon-btn inline-flex items-center gap-3 px-10 py-5 text-white text-lg font-bold rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300 animate-in fade-in zoom-in duration-700 delay-400"
+            className="inline-flex items-center gap-3 px-10 py-5 bg-white text-lg font-bold rounded-2xl shadow-2xl hover:scale-[1.02] transition-all duration-300 animate-in fade-in zoom-in duration-700 delay-400 focus-ring"
+            style={{ color: 'var(--accent-primary)' }}
           >
             Create Free Account
             <svg className="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ maxWidth: '24px', maxHeight: '24px' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
-          <p className="text-blue-200 text-sm mt-6 animate-in fade-in duration-700 delay-500">
-            No credit card required • Free forever • 2 minute setup
+          <p className="text-white/70 text-sm mt-6 animate-in fade-in duration-700 delay-500">
+            No credit card required &bull; Free forever &bull; 2 minute setup
           </p>
         </div>
       </div>

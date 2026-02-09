@@ -59,8 +59,8 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
               </svg>
             </div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-white mb-2">Create Account</h2>
-            <p className="text-[#b8b8b8]">Join Todo Premium for free today</p>
+            <h1 className="text-3xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>Create Account</h1>
+            <p className="text-secondary">Join Todo Premium for free today</p>
           </div>
 
           {/* Error Message */}
@@ -76,7 +76,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
           <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Name Field */}
             <div className="space-y-2">
-              <label htmlFor="name" className="block text-xs font-bold uppercase tracking-widest text-[#d4af37] ml-1">
+              <label htmlFor="name" className="block text-xs font-bold uppercase tracking-widest ml-1" style={{ color: 'var(--accent-primary)' }}>
                 Full Name
               </label>
               <input
@@ -86,14 +86,14 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 disabled={loading}
-                className="input-field py-4"
+                className="input-field py-4 focus-ring"
                 placeholder="John Doe"
               />
             </div>
 
             {/* Email Field */}
             <div className="space-y-2">
-              <label htmlFor="email-address" className="block text-xs font-bold uppercase tracking-widest text-[#d4af37] ml-1">
+              <label htmlFor="email-address" className="block text-xs font-bold uppercase tracking-widest ml-1" style={{ color: 'var(--accent-primary)' }}>
                 Email Address
               </label>
               <input
@@ -104,14 +104,14 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
-                className="input-field py-4"
+                className="input-field py-4 focus-ring"
                 placeholder="you@example.com"
               />
             </div>
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-xs font-bold uppercase tracking-widest text-[#d4af37] ml-1">
+              <label htmlFor="password" className="block text-xs font-bold uppercase tracking-widest ml-1" style={{ color: 'var(--accent-primary)' }}>
                 Password
               </label>
               <div className="relative">
@@ -123,13 +123,16 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={loading}
-                  className="input-field py-4 pr-12"
+                  className="input-field py-4 pr-12 focus-ring"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#6b6b6b] hover:text-[#d4af37] transition-colors duration-300"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-tertiary transition-colors duration-300 focus-ring"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-primary)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '')}
                   disabled={loading}
                 >
                   {showPassword ? (
@@ -145,7 +148,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
                 </button>
               </div>
               {password && (
-                <p className="text-xs text-[#6b6b6b] mt-2 ml-1">
+                <p className="text-xs text-tertiary mt-2 ml-1">
                   Use 8+ characters with a mix of letters, numbers & symbols
                 </p>
               )}
@@ -155,7 +158,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full py-4 mt-6 flex items-center justify-center gap-3 group"
+              className="btn-primary w-full py-4 mt-6 flex items-center justify-center gap-3 group focus-ring"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-[#0a0a0a]/30 border-t-[#0a0a0a] rounded-full animate-spin" />
@@ -175,8 +178,8 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
 
           {/* Login Link */}
           <div className="text-center">
-            <span className="text-[#b8b8b8]">Already a member?</span>{' '}
-            <Link href="/login" className="text-[#d4af37] hover:text-[#f4c430] font-semibold transition-colors duration-300">
+            <span className="text-secondary">Already a member?</span>{' '}
+            <Link href="/login" className="font-semibold transition-colors duration-300 focus-ring" style={{ color: 'var(--accent-primary)' }}>
               Sign in instead
             </Link>
           </div>

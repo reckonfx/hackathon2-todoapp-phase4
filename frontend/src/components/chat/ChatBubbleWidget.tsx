@@ -73,13 +73,13 @@ export const ChatBubbleWidget: React.FC<ChatBubbleWidgetProps> = ({ userId: prop
             position: 'fixed',
             bottom: '100px',
             right: '24px',
-            width: '380px',
-            height: '520px',
+            width: 'min(380px, calc(100vw - 32px))',
+            height: 'min(520px, calc(100vh - 120px))',
             zIndex: 99998,
             borderRadius: '16px',
             overflow: 'hidden',
             boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
-            border: '1px solid rgba(99, 102, 241, 0.3)',
+            border: '1px solid var(--accent-light)',
             backgroundColor: '#fff'
           }}
         >
@@ -135,12 +135,12 @@ export const ChatBubbleWidget: React.FC<ChatBubbleWidgetProps> = ({ userId: prop
           zIndex: 99999,
           width: '60px',
           height: '60px',
-          backgroundColor: isOpen ? '#4f46e5' : '#6366f1',
+          backgroundColor: 'var(--accent-primary)',
           borderRadius: '50%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 4px 20px rgba(99, 102, 241, 0.5)',
+          boxShadow: '0 4px 20px var(--accent-shadow)',
           cursor: 'pointer',
           transition: 'all 0.3s ease',
           transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)'

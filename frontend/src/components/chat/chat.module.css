@@ -355,6 +355,20 @@
   cursor: not-allowed;
 }
 
+.sendButton:focus-visible {
+  outline: 2px solid var(--accent-primary, #667eea);
+  outline-offset: 2px;
+}
+
+.textInput:focus-visible {
+  outline: none;
+}
+
+.voiceButton:focus-visible {
+  outline: 2px solid var(--accent-primary, #667eea);
+  outline-offset: 2px;
+}
+
 .sendIcon {
   transform: rotate(-45deg);
 }
@@ -531,5 +545,19 @@
   .inputMeta {
     flex-direction: column;
     gap: 4px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .typingDot,
+  .pulseRing,
+  .bubble,
+  .chatContainer *,
+  .chatContainer *::before,
+  .chatContainer *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

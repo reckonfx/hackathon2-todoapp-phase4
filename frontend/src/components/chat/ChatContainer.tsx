@@ -47,7 +47,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ userId }) => {
       <div className={styles.chatHeader}>
         <div className={styles.headerContent}>
           <h2 className={styles.headerTitle}>
-            <span className={styles.headerIcon}>🤖</span>
+            <span className={styles.headerIcon} role="img" aria-label="AI Assistant">🤖</span>
             Todo AI Assistant
           </h2>
           <p className={styles.headerSubtitle}>
